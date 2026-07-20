@@ -1,7 +1,9 @@
 package com.nikoskatrakoulis.employeemanagementapi.controller;
 
-import com.nikoskatrakoulis.employeemanagementapi.model.Employee;
+import com.nikoskatrakoulis.employeemanagementapi.dto.EmployeeCreateRequest;
+import com.nikoskatrakoulis.employeemanagementapi.dto.EmployeeResponse;
 import com.nikoskatrakoulis.employeemanagementapi.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,23 +19,24 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+    public EmployeeResponse createEmployee(@Valid @RequestBody EmployeeCreateRequest request) {
+        return employeeService.createEmployee(request);
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployee(@PathVariable(name = "id")Long id) {
+    public EmployeeResponse getEmployee(@PathVariable(name = "id")Long id) {
         return employeeService.getEmployeeById(id);
     }
 
     @GetMapping
-    public List<Employee> getAll() {
+    public List<EmployeeResponse> getAll() {
+
         return employeeService.getAllEmployees();
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable(name = "id")Long id, @RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee);
+    public EmployeeResponse updateEmployee(@PathVariable(name = "id")Long id, @Valid @RequestBody EmployeeCreateRequest request) {
+        return employeeService.updateEmployee(id, request);
     }
 
     @DeleteMapping("/{id}")

@@ -1,10 +1,12 @@
 package com.nikoskatrakoulis.employeemanagementapi.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class EmployeeResponse {
 
     private Long id;

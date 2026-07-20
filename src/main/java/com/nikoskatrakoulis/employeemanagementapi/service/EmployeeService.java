@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,32 +19,42 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeResponse> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        return employees.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
 
     }
 
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id)
+    public EmployeeResponse getEmployeeById(Long id) {
+        Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+
+        return toResponse(employee);
     }
 
-    public Employee createEmployee(EmployeeCreateRequest employee) {
-        EmployeeCreateRequest employeeCreateRequest = employeeRepository
+    public EmployeeResponse createEmployee(EmployeeCreateRequest request) {
+        Employee employee = toEntity(request);
+        Employee savedEmployee = employeeRepository.save(employee);
+        return toResponse(savedEmployee);
 
-        return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee updateData) {
+    public EmployeeResponse updateEmployee(Long id, EmployeeCreateRequest request) {
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
-        existingEmployee.setFirstName(updateData.getFirstName());
-        existingEmployee.setLastName(updateData.getLastName());
-        existingEmployee.setEmail(updateData.getEmail());
-        existingEmployee.setDepartment(updateData.getDepartment());
-        existingEmployee.setSalary(updateData.getSalary());
 
-        return employeeRepository.save(existingEmployee);
+        existingEmployee.setFirstName(request.getFirstName());
+        existingEmployee.setLastName(request.getLastName());
+        existingEmployee.setEmail(request.getEmail());
+        existingEmployee.setDepartment(request.getDepartment());
+        existingEmployee.setSalary(request.getSalary());
+
+        Employee savedEmployee = employeeRepository.save(existingEmployee);
+
+        return toResponse(savedEmployee);
     }
 
     public void deleteEmployee(Long id) {
@@ -55,7 +66,13 @@ public class EmployeeService {
     }
 
     private Employee toEntity(EmployeeCreateRequest request) {
-        return new Employee(request.getFirstName(), request.getLastName(), request.getEmail(), request.getDepartment(), request.getSalary());
+        Employee employee = new Employee();
+        employee.setFirstName(request.getFirstName());
+        employee.setLastName(request.getLastName());
+        employee.setEmail(request.getEmail());
+        employee.setDepartment(request.getDepartment());
+        employee.setSalary(request.getSalary());
+        return employee;
     }
 
     private EmployeeResponse toResponse(Employee employee) {
