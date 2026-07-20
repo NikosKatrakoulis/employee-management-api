@@ -3,7 +3,7 @@ package com.nikoskatrakoulis.employeemanagementapi.service;
 import com.nikoskatrakoulis.employeemanagementapi.dto.EmployeeCreateRequest;
 import com.nikoskatrakoulis.employeemanagementapi.dto.EmployeeResponse;
 import com.nikoskatrakoulis.employeemanagementapi.exception.EmployeeNotFoundException;
-import com.nikoskatrakoulis.employeemanagementapi.entity.Employee;
+import com.nikoskatrakoulis.employeemanagementapi.model.Employee;
 import com.nikoskatrakoulis.employeemanagementapi.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

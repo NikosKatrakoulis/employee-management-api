@@ -1,4 +1,4 @@
-package com.nikoskatrakoulis.employeemanagementapi.entity;
+package com.nikoskatrakoulis.employeemanagementapi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
