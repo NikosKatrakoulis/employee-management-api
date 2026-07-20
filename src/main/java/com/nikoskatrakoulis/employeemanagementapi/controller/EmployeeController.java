@@ -1,6 +1,6 @@
 package com.nikoskatrakoulis.employeemanagementapi.controller;
 
-import com.nikoskatrakoulis.employeemanagementapi.model.Employee;
+import com.nikoskatrakoulis.employeemanagementapi.entity.Employee;
 import com.nikoskatrakoulis.employeemanagementapi.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

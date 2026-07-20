@@ -1,6 +1,6 @@
 package com.nikoskatrakoulis.employeemanagementapi.repository;
 
-import com.nikoskatrakoulis.employeemanagementapi.model.Employee;
+import com.nikoskatrakoulis.employeemanagementapi.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
