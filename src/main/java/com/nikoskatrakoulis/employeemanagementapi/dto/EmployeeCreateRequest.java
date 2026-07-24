@@ -25,8 +25,8 @@ public class EmployeeCreateRequest {
     @Email
     private String email;
 
-    @NotBlank(message = "Department is required")
-    private String department;
+    @NotNull(message = "Department is required")
+    private Long departmentId;
 
     @NotNull(message = "Salary is required")
     @Positive

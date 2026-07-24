@@ -17,7 +17,9 @@ public class EmployeeResponse {
 
     private String email;
 
-    private String department;
+    private Long departmentId;
+
+    private String departmentName;
 
     private BigDecimal salary;
 }
