@@ -9,17 +9,17 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class EmployeeResponse {
 
-    private Long id;
+    private final Long id;
 
-    private String firstName;
+    private final String firstName;
 
-    private String lastName;
+    private final String lastName;
 
-    private String email;
+    private final String email;
 
-    private Long departmentId;
+    private final Long departmentId;
 
-    private String departmentName;
+    private final String departmentName;
 
-    private BigDecimal salary;
+    private final BigDecimal salary;
 }

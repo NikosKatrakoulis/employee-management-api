@@ -17,10 +17,10 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeResponse createEmployee(@Valid @RequestBody EmployeeCreateRequest request) {
-        return employeeService.createEmployee(request);
+    @GetMapping
+    public List<EmployeeResponse> getAll() {
+
+        return employeeService.getAllEmployees();
     }
 
     @GetMapping("/{id}")
@@ -28,10 +28,10 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
-    @GetMapping
-    public List<EmployeeResponse> getAll() {
-
-        return employeeService.getAllEmployees();
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmployeeResponse createEmployee(@Valid @RequestBody EmployeeCreateRequest request) {
+        return employeeService.createEmployee(request);
     }
 
     @PutMapping("/{id}")
@@ -44,6 +44,5 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable(name = "id")Long id) {
         this.employeeService.deleteEmployee(id);
     }
-
 
 }

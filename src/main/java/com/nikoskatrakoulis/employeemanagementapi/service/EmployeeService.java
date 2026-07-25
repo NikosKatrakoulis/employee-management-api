@@ -33,8 +33,7 @@ public class EmployeeService {
     }
 
     public EmployeeResponse getEmployeeById(Long id) {
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+        Employee employee = findEmployeeOrThrow(id);
 
         return toResponse(employee);
     }
@@ -47,15 +46,13 @@ public class EmployeeService {
     }
 
     public EmployeeResponse updateEmployee(Long id, EmployeeCreateRequest request) {
-        Employee existingEmployee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
-        Department existingDepartment = departmentRepository.findById(request.getDepartmentId())
-                        .orElseThrow(()-> new DepartmentNotFoundException("Department not found with id: " + request.getDepartmentId()));
+        Employee existingEmployee = findEmployeeOrThrow(id);
+        Department department = findDepartmentOrThrow(request.getDepartmentId());
 
         existingEmployee.setFirstName(request.getFirstName());
         existingEmployee.setLastName(request.getLastName());
         existingEmployee.setEmail(request.getEmail());
-        existingEmployee.setDepartment(existingDepartment);
+        existingEmployee.setDepartment(department);
         existingEmployee.setSalary(request.getSalary());
 
         Employee savedEmployee = employeeRepository.save(existingEmployee);
@@ -77,8 +74,7 @@ public class EmployeeService {
         employee.setLastName(request.getLastName());
         employee.setEmail(request.getEmail());
 
-        Department department = departmentRepository.findById(request.getDepartmentId())
-                .orElseThrow(()-> new DepartmentNotFoundException("Department not found with id: " + request.getDepartmentId()));
+        Department department = findDepartmentOrThrow(request.getDepartmentId());
         employee.setDepartment(department);
         employee.setSalary(request.getSalary());
         return employee;
@@ -86,5 +82,15 @@ public class EmployeeService {
 
     private EmployeeResponse toResponse(Employee employee) {
         return new EmployeeResponse(employee.getId(), employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getDepartment().getId(), employee.getDepartment().getName(), employee.getSalary());
+    }
+
+    private Department findDepartmentOrThrow(Long departmentId) {
+        return departmentRepository.findById(departmentId)
+                .orElseThrow(()-> new DepartmentNotFoundException("Department not found with id: " + departmentId));
+    }
+
+    private Employee findEmployeeOrThrow(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
     }
 }
