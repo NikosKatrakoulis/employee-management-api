@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: employee-postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: employeedb
+    ports:
+      - "5433:5432"
+    volumes:
+      - employee_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  employee_postgres_data:
