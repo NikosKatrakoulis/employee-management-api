@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/api/employees/**", "/api/departments/**").
                         permitAll()
-                        .requestMatchers("/api/employees/**", "/api/departments/**")
+                        .requestMatchers("/api/employees/**", "/api/departments/**", "/api/users/**")
                         .hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
