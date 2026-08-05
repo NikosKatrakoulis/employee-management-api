@@ -24,12 +24,22 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/errors", "/css/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/employees/**", "/api/departments/**").
                         permitAll()
                         .requestMatchers("/api/employees/**", "/api/departments/**", "/api/users/**")
                         .hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/employees", true)
+                        .permitAll()
+                )
+                .logout(logout-> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
                 )
                 .httpBasic(Customizer.withDefaults());
 
