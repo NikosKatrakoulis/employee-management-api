@@ -36,8 +36,8 @@
       <td th:text="${employee.departmentName}"></td>
       <td th:text="${employee.salary}"></td>
       <td sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/employees/{id}/edit(id=${employee.id})" class="btn btn-sm btn-outline-secondary">Edit</a>
-        <form th:action="@{/employees/{id}/delete(id=${employee.id})" method="post" style="display: inline;">
+        <a th:href="@{/employees/{id}/edit(id=${employee.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        <form th:action="@{/employees/{id}/delete(id=${employee.id})}" method="post" style="display: inline;">
           <button type="submit" class="btn btn-sm btn-outline-danger"
                   onclick="return confirm('Are you sure')">
             Delete
