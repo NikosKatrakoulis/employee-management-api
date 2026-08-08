@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment secrets ###
+.env
+
+### Frontend ###
+frontend/node_modules/
+frontend/dist/
