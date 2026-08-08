@@ -12,6 +12,32 @@ services:
       - "5433:5432"
     volumes:
       - employee_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
+  backend:
+    build: .
+    container_name: employee-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/employeedb
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_USERNAME}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: employee-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
 volumes:
   employee_postgres_data:
