@@ -2,6 +2,7 @@ package com.nikoskatrakoulis.employeemanagementapi.service;
 
 import com.nikoskatrakoulis.employeemanagementapi.dto.UserCreateRequest;
 import com.nikoskatrakoulis.employeemanagementapi.dto.UserResponse;
+import com.nikoskatrakoulis.employeemanagementapi.dto.UserUpdateRequest;
 import com.nikoskatrakoulis.employeemanagementapi.exception.UserNotFoundException;
 import com.nikoskatrakoulis.employeemanagementapi.model.AppUser;
 import com.nikoskatrakoulis.employeemanagementapi.repository.UserRepository;
@@ -41,10 +42,14 @@ public class UserService {
         return toResponse(savedUsername);
     }
 
-    public UserResponse updateUserById(Long id, UserCreateRequest request) {
+    public UserResponse updateUserById(Long id, UserUpdateRequest request) {
         AppUser existingUser = findUserOrThrow(id);
         existingUser.setUsername(request.getUsername());
         existingUser.setRole(request.getRole());
+
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            existingUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         AppUser savedUser = userRepository.save(existingUser);
         return toResponse(savedUser);
     }
